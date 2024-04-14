@@ -1,0 +1,227 @@
+{% extends "layouts/base_employee.html" %}
+
+{% block title %} Department of Justice and Constitutional Development Buildings {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="modal fade" id="addnewform" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Reserve Parking</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="newhandlerform">
+          <div class="form-group">
+            <input type="number"  name="name" class="form-control" id="exampleInputEmail1" placeholder="Number of Parkings">
+          </div>
+          <label>Start Date and Time</label>
+          <div class="form-group mt--3">
+           
+            <input type="datetime-local" name="end" class="w-100"  style="border-color: rgb(228, 228, 228);"  placeholder="End">
+            
+          </div>
+          <label>End Date and Time</label>
+          <div class="form-group">
+            
+              <input type="datetime-local" name="end" class="w-100"  style="border-color: rgb(228, 228, 228);"  placeholder="End">
+            
+            </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" style="background-color: orange;">save</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card card-plain">
+                <div class="card-header card-header-primary" style="background: linear-gradient(60deg, orange, rgb(255, 199, 94));">
+                  <h4 class="card-title mt-0" style="color:rgb(83, 83, 83)">{{building.name}}/Parkings</h4>
+                  <p class="card-category">Department of Justice and Constitutional Development Buildings</p>
+                </div>
+
+                <div class="card-body">
+                  <button type="submit" name="delete" class="btn btn-primary btn-sm w-100" data-toggle="modal" data-target="#addnewform" style="background-color: orange;">Reserve Parkings</button>
+                  <span><h2 style="margin-bottom: -10px;" >0</h2><small style="color:gray;margin-bottom: 10px;"> Unreserver parkings</small></span>
+                  <hr/>
+                  <!--<input type="text" class="form-control w-100" placeholder="Search Building"> -->
+                    
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class="">
+                        <th>
+
+                            Parking ID
+                        </th>
+                        <th>
+                            Building Address
+                        </th>
+                      </thead>
+                      <tbody>
+                        {% for b in parkings %}
+                        <tr>
+                          <td>
+                            {{b.parking_id}}
+                          </td>
+                          <td>
+                            {{b.address}}
+                          </td>
+                         
+                        
+                        </tr>
+                        {% endfor %}
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+     var deleteBtns = document.getElementsByClassName('delete-building')
+
+for (i = 0; i < deleteBtns.length; i++) {
+  deleteBtns[i].addEventListener('click', function(){
+ var Id = this.dataset.pk
+
+ console.log('itemId:', Id)
+
+      deleteOrderItem(Id)
+ 
+})
+}
+
+
+
+var form = document.getElementById('newitemform')
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        alert('form Submited')
+        submitFormData();
+      
+    })
+
+    function getToken(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getToken('csrftoken')   
+    //add  building 
+
+    function submitFormData(){
+        var itemData = {
+            'name':null,
+            'address':null,
+            'zipCode':null,
+            'city':null,
+        }
+
+        itemData.name = form.name.value
+        itemData.address = form.address.value
+        itemData.zipCode = form.zipCode.value
+        itemData.city = form.city.value
+        
+        var URL = "/building/";
+
+        var dataObject = itemData;
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+        $.ajax({
+            url: URL,
+            type: 'POST',    
+            data: JSON.stringify(dataObject),
+            contentType : 'application/json',
+            success: function(result) {
+              $('#addnewform').modal('hide')
+              $('#addMessage').modal('show')
+              $('#addMessage').on('hidden.bs.modal', function (e) {
+                
+                location.reload()
+                })
+
+              
+            }
+        });
+    }
+
+
+//delete building
+function deleteOrderItem(itemId){
+
+var URL = "/building/"+itemId+"/";
+
+
+       function csrfSafeMethod(method) {
+           // these HTTP methods do not require CSRF protection
+           return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+       }
+
+       $.ajaxSetup({
+           beforeSend: function(xhr, settings) {
+               if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                   xhr.setRequestHeader("X-CSRFToken", csrftoken);
+               }
+           }
+       });
+
+
+       $.ajax({
+           url: URL,
+           type: 'DELETE',    
+           contentType : 'application/json',
+           success: function(result) {
+               $('#deleteMessage').modal('show')
+
+               $('#deleteMessage').on('hidden.bs.modal', function (e) {
+               
+                   location.reload()
+                   })
+           }
+       });
+}
+
+</script>
+
+
+{% endblock javascripts %}

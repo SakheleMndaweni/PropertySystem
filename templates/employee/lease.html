@@ -1,0 +1,78 @@
+{% extends "layouts/base_employee.html" %}
+
+{% block title %} UI Notifications {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+        <div class="card">
+            <div class="card-header card-header-primary" style="background: linear-gradient(60deg, orange, rgb(255, 199, 94));">
+              <h4 class="card-title" style="color:rgb(83, 83, 83)">Lease Portfolio</h4>
+            </div>
+            <div class="card-body">
+                <input type="text" class="form-control w-100" placeholder="Search Building">
+                <small style="color:gray">Click on the building to view location</small>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="">
+                    <th>
+
+                        Building
+                    </th>
+                    <th>
+                        Address
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        End Date
+                    </th>
+                    <th>
+                        Landlord
+                    </th>
+                  </thead>
+                  <tbody>
+                    {% for b in buildings %}
+                    <tr style="background: linear-gradient(60deg, rgb(255, 255, 255), green);"   data-href="{% url 'buildingDirectionInfor' b.id %}">
+                      <td>
+                        {{b.name}}
+                      </td>
+                      <td>
+                        {{b.address}}
+                      </td>
+                      <td>
+                       
+                      </td>
+                      <td>
+                      
+                      </td>
+                      <td>
+                      
+                      </td>
+                    
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+        </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <script>
+    $(document).ready(function() {
+      //init DateTimePickers
+      md.initFormExtendedDatetimepickers();
+    });
+  </script>
+  
+{% endblock javascripts %}

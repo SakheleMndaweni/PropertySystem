@@ -1,0 +1,82 @@
+{% extends "layouts/base-full.html" %}
+
+{% block title %} Login {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+     <style>
+        
+    .login {
+  margin-top: 100px;
+  display: block;
+  margin-bottom: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  
+}
+.card.card-rotate.bg-primary .back {
+    background: linear-gradient(60deg, orange, orange); 
+  
+  }
+    </style>
+    
+  <div class="row">
+    <div class="col-12 col-md-5 login">
+      <div class="card">
+        <div class="card-header card-header-primary" style="background: linear-gradient(60deg, orange, rgb(143, 124, 88));" >
+          <h4 class="card-title">
+            Login
+          </h4>
+        </div>
+        <div class="card-body">
+
+          <h6 class="card-category">
+              {% if msg %}
+                <span class="text-danger">{{ msg | safe }}</span>
+              {% else %}
+                   <small>Department of Justice and Constitutional Development</small>
+              {% endif %}  
+          </h6>
+      
+          
+          
+
+          <form role="form" method="post" action="">
+              
+            {% csrf_token %} 
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  {{ form.username }}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group"> 
+                  {{ form.password }}
+                </div>
+              </div>
+            </div>
+
+            <br />
+
+            <button type="submit" name="login" class="btn btn-primary pull-left" style="background-color: orange;">Login</button>
+
+            <div class="clearfix"></div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

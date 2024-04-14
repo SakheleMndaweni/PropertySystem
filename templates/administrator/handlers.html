@@ -1,0 +1,320 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Department of Justice and Constitutional Development Report handler {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+  <!--
+    add new building
+  -->
+  <div class="modal fade" id="addnewform" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">New Department Report handler</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="newhandlerform">
+            <div class="form-group">
+              <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Name">
+            </div>
+            <div class="form-group">
+              <input type="text" name="surname" class="form-control"  placeholder="Surname">
+            </div>
+            <div class="form-group">
+                <input type="text" name="phone" class="form-control"  placeholder="Phone Numbers">
+              </div>
+            <div class="form-group">
+                <input type="text" name="email" class="form-control"  placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="text" name="address" class="form-control"  placeholder="Address">
+            </div>
+            <div class="form-group">
+                <input type="text" name="zipCode" class="form-control"  placeholder="Postal Code">
+            </div>
+            <div class="form-group">
+                <input type="text" name="employeeNumber" class="form-control"  placeholder="Employee Number">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" style="background-color: orange;">save</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+   <!--
+    End add new 
+  -->
+  <div class="modal fade" id="addMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">New Report handler Added Successfully</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <P>Department Report handler Added Successfully</P>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"  style="background-color: orange;color:white">Ok</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Deleted successfully</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <P>Report handler was successfully deleted</P>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"  style="background-color: orange;color:white">Ok</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card card-plain">
+                <div class="card-header card-header-primary" style="background: linear-gradient(60deg, orange, rgb(255, 199, 94));">
+                  <h4 class="card-title mt-0" style="color:rgb(83, 83, 83)">Reports handler</h4>
+                  <p class="card-category">Department of Justice and Constitutional Development Reports handler</p>
+                </div>
+
+                <div class="card-body">
+                    <button type="submit" name="delete" class="btn btn-primary btn-sm w-100" data-toggle="modal" data-target="#addnewform" style="background-color: orange;">Add New Report handler</button>
+                    <input type="text" class="form-control w-100" placeholder="Search Report handler">
+                    <small style="color:gray">Click on the Report handler to view performance</small>
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class="">
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                      </thead>
+                      <tbody>
+                        {% for b in handlers %}
+                        <tr>
+                          <td>
+                            {{b.name}} {{b.surname}}
+                          </td>
+                          <td>
+                            {{b.address}}, {{b.zipCode}}
+                          </td>
+                          <td>
+                            {{b.email}}
+                          </td>
+                          <td>
+                            {{b.phone}}
+                          </td>
+                          <td>
+                            <a href="{% url 'update_system_handler' b.id %}"  name="update" class="btn btn-primary btn-sm pull-right" style="background-color: orange;">update</a>
+                          </td>
+                          <td>
+                            <button name="delete"  data-pk="{{b.id}}" class="btn btn-primary btn-sm pull-right delete-handler" style="background-color: orange;color:white">delete</button>
+
+                          </td>
+                        </tr>
+                        {% endfor %}
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+     var deleteBtns = document.getElementsByClassName('delete-handler')
+
+for (i = 0; i < deleteBtns.length; i++) {
+  deleteBtns[i].addEventListener('click', function(){
+ var Id = this.dataset.pk
+
+ console.log('itemId:', Id)
+
+      deleteOrderItem(Id)
+ 
+})
+}
+
+
+
+var form = document.getElementById('newhandlerform')
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        alert('form Submited')
+        submitFormData();
+      
+    })
+
+    function getToken(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getToken('csrftoken')   
+    //add  Employee 
+
+    function submitFormData(){
+        var csrftoken = getToken('csrftoken')
+        var itemData = {
+            'name':null,
+            'surname':null,
+            'phone':null,
+            'email':null,
+            'address':null,
+            'zipCode':null,
+            'employeeNumber':null
+        }
+
+        var userData = {
+            'username':null,
+            'email':null,
+            'password':null,
+        }
+    
+        userData.username = form.name.value
+        userData.email = form.email.value
+        userData.password = '1234567'
+        //end user information to the user 
+
+        
+        //itemData.user = userData
+        itemData.name = form.name.value
+        alert(itemData.name)
+        itemData.phone = form.phone.value
+        itemData.email = form.email.value
+        itemData.address = form.address.value
+        itemData.surname = form.surname.value
+        itemData.zipCode = form.zipCode.value
+        itemData.employeeNumber = form.employeeNumber.value
+        
+        var URL = "/report/handler/";
+
+        var dataObject = itemData;
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+        $.ajax({
+            url: URL,
+            type: 'POST',    
+            data: JSON.stringify(dataObject),
+            contentType : 'application/json',
+            success: function(result) {
+              $('#addnewform').modal('hide')
+              $('#addMessage').modal('show')
+              $('#addMessage').on('hidden.bs.modal', function (e) {
+                
+                location.reload()
+                })
+
+              
+            }
+        });
+    }
+
+
+//delete Report handler
+function deleteOrderItem(itemId){
+
+var URL = "/report/handler/"+itemId+"/";
+
+
+       function csrfSafeMethod(method) {
+           // these HTTP methods do not require CSRF protection
+           return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+       }
+
+       $.ajaxSetup({
+           beforeSend: function(xhr, settings) {
+               if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                   xhr.setRequestHeader("X-CSRFToken", csrftoken);
+               }
+           }
+       });
+
+
+       $.ajax({
+           url: URL,
+           type: 'DELETE',    
+           contentType : 'application/json',
+           success: function(result) {
+               $('#deleteMessage').modal('show')
+
+               $('#deleteMessage').on('hidden.bs.modal', function (e) {
+               
+                   location.reload()
+                   })
+           }
+       });
+}
+
+</script>
+
+
+{% endblock javascripts %}

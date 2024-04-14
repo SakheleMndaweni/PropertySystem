@@ -1,0 +1,228 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Department of Justice and Constitutional Development Buildings {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+.update {
+   
+    display: block;
+    margin-top: -30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    
+  }
+  .card.card-rotate.bg-primary .back {
+      background: linear-gradient(60deg, orange, orange); 
+    
+    }
+
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <!--
+    add new building
+  -->
+ 
+  <div class="modal fade" id="updateMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Updated successfully</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <P>Building information was successfully updated</P>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"  style="background-color: orange;color:white">Ok</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card card-plain">
+                <div class="card-header card-header-primary" style="background: linear-gradient(60deg, orange, rgb(255, 199, 94));">
+                  <h4 class="card-title mt-0" style="color:rgb(83, 83, 83)">Update Department Report handler</h4>
+                  <p class="card-category">Update {{handler.name}} Information</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6 update">
+                          <div class="card">
+                            <div class="card-header " style="background: linear-gradient(60deg, orange, rgb(143, 124, 88));" >
+                                <h4 class="card-title">
+                                 {{handler.name}}   {{handler.surname}}
+                                </h4>
+                              </div>
+                            <div class="card-body">
+                    
+                              <h6 class="card-category">
+                                 
+                                       <small>Department of Justice and Constitutional Development Building </small>
+                                 
+                              </h6>
+                              <form id="updatehandlerform">
+                                <div class="form-group">
+                                    <input type="text" name="name" value="{{handler.name}}" class="form-control" id="exampleInputEmail1" placeholder="Name">
+                                  </div>
+                                  <div class="form-group">
+                                    <input type="text" name="surname"  value="{{handler.surname}}" class="form-control"  placeholder="Surname">
+                                  </div>
+                                  <div class="form-group">
+                                      <input type="text" name="phone" value="{{handler.phone}}" class="form-control"  placeholder="Phone Numbers">
+                                    </div>
+                                  <div class="form-group">
+                                      <input type="text" name="email" value="{{handler.email}}" class="form-control"  placeholder="Email">
+                                  </div>
+                                  <div class="form-group">
+                                      <input type="text" name="address" value="{{handler.address}}" class="form-control"  placeholder="Address">
+                                  </div>
+                                  <div class="form-group">
+                                      <input type="text" name="zipCode"  value="{{handler.zipCode}}" class="form-control"  placeholder="Postal Code">
+                                  </div>
+                                  <div class="form-group">
+                                      <input type="text" name="employeeNumber" value="{{handler.employeeNumber}}" class="form-control"  placeholder="Employee Number">
+                                  </div>
+                             
+                                    <input hidden type="text" name="id" value="{{handler.id}}" class="form-control" >
+                               
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary" style="background-color: orange;">save</button>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                  
+                </div>
+              </div>
+            </div>
+        </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+
+
+var form = document.getElementById('updatehandlerform')
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        alert('form Submited')
+        submitFormData();
+      
+    })
+
+    function getToken(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getToken('csrftoken')   
+    //add  building 
+
+    function submitFormData(){
+        var itemData = {
+            'user':null,
+            'name':null,
+            'surname':null,
+            'phone':null,
+            'email':null,
+            'address':null,
+            'zipCode':null,
+            'employeeNumber':null
+        }
+
+        var userData = {
+            'username':null,
+            'email':null,
+            'password':null,
+        }
+    
+        userData.username = form.name.value
+        userData.email = form.email.value
+        userData.password = '1234567'
+        //end user information to the user 
+
+
+        itemData.user = userData
+        itemData.name = form.name.value
+        itemData.phone = form.phone.value
+        itemData.email = form.email.value
+        itemData.address = form.address.value
+        itemData.surname = form.surname.value
+        itemData.zipCode = form.zipCode.value
+        itemData.employeeNumber = form.employeeNumber.value
+        
+        var id =  form.id.value
+        
+        var URL = "/report/handler/"+id+"/";
+
+        var dataObject = itemData;
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+        $.ajax({
+            url: URL,
+            type: 'PUT',    
+            data: JSON.stringify(dataObject),
+            contentType : 'application/json',
+            success: function(result) {
+              $('#updateMessage').modal('show')
+              $('#updateMessage').on('hidden.bs.modal', function (e) {
+                
+                window.location.href = "{% url 'report_handler' %}"
+                })
+
+              
+            }
+        });
+    }
+
+
+
+</script>
+
+
+{% endblock javascripts %}

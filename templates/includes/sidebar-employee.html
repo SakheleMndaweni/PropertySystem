@@ -1,0 +1,131 @@
+<div class="sidebar" data-color="orange" data-background-color="white" data-image="/static/assets/img/sidebar-1.jpg">
+    <div class="logo">
+      <a target="_blank" rel="noopener noreferrer" 
+         href="" class="simple-text logo-normal">
+         Facilities Management
+      </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+      {% if request.user.is_authenticated %}
+        <li class="active nav-item" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <a class="nav-link" >
+            <i class="material-icons"></i>
+            <p>Property Management</p>
+            </a>
+        </li>
+        <style>
+          #navlink:hover{
+             background-color: gray;
+          }
+
+
+        </style>
+      
+        <li class="collapse"  id="collapseExample" >
+
+          <a class="nav-link" id="navlink"  href="{% url 'reportBuilding' %}">
+            <i class="material-icons"></i>
+            <p>FM Service Desk</p>
+          </a>
+          <a class="nav-link"  id="navlink"  href="{% url 'parkingBuildings' %}">
+            <i class="material-icons"></i>
+            <p>Parking Booking</p>
+          </a>
+          <a class="nav-link" id="navlink"  href="{% url 'boardroombuildings' %}">
+            <i class="material-icons"></i>
+            <p>Board Room Booking</p>
+          </a>
+          <a class="nav-link" id="navlink"  href='{% url "buildingportfolio" %}'>
+            <i class="material-icons" ></i>
+            <p>Lease Portfolio</p>
+          </a>
+          <a class="nav-link" id="navlink"  href="{% url 'projects' %}">
+            <i class="material-icons"></i>
+            <p>Property Projects</p>
+          </a>
+          <a class="nav-link" id="navlink"  href="{% url 'systemreporting' %}">
+            <i class="material-icons"></i>
+            <p>Reporting</p>
+          </a>
+          <a class="nav-link" id="navlink"  href="{% url 'municipalServices' %}">
+            <i class="material-icons"></i>
+            <p>Municipal Services</p>
+          </a>
+        </li>
+
+        <li class="active nav-item"  data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
+          <a class="nav-link" >
+            <i class="material-icons"></i>
+            <p>Infrastructure Management</p>
+          </a>
+        </li>
+
+        <li class="collapse" id="collapseExample2" >
+
+          <a class="nav-link" id="navlink"  href="{% url 'newcourt' %}">
+            <i class="material-icons"></i>
+            <p>New Court/Renovations</p>
+          </a>
+
+          <a class="nav-link" id="navlink"  href="{% url 'projectBudget' %}" >
+            <i class="material-icons"></i>
+            <p>New Buildings Projects</p>
+          </a>
+          <a class="nav-link" id="navlink"  href="{% url 'renovationsnew' %}">
+            <i class="material-icons"></i>
+            <p>Renovations</p>
+          </a>
+          <a class="nav-link" id="navlink"  href="{% url 'projectBudget' %}">
+            <i class="material-icons"></i>
+            <p>Infrastructure Project Budget</p>
+          </a>
+          <a class="nav-link" id="navlink"  href="{% url 'reportingInfa' %}">
+            <i class="material-icons"></i>
+            <p>Reporting</p>
+          </a>
+          <a class="nav-link" id="navlink"  href="">
+            <i class="material-icons"></i>
+            <hr/>
+          </a>
+        </li>
+
+        <li class="nav-item {% if 'aump' in segment %} active {% endif %}">
+          <a class="nav-link" href="{% url 'aumpservice' %}">
+            <i class="material-icons"></i>
+               <p>AUMP</p>
+          </a>
+        </li>
+
+
+        <li class="nav-item {% if 'notification' in segment %} active {% endif %}">
+          <a class="nav-link" href="{% url 'notificationEmployee' %}">
+            <i class="material-icons"></i>
+            <p>Notifications</p>
+          </a>
+        </li>
+        
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'logout' %}" >
+            <i class="material-icons"></i>
+            <p>Logout</p>
+          </a>
+        </li>
+
+
+      {% else %}
+
+        <li class="nav-item active">
+          <a class="nav-link" 
+             target="_blank" rel="noopener noreferrer"  
+             href="">
+            <i class="material-icons"></i>
+            <p>Buildings Management</p>
+          </a>
+        </li>          
+
+      {% endif %}
+      </ul>
+    </div>
+
+  </div>

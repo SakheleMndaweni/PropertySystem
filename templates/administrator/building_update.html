@@ -1,0 +1,198 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Department of Justice and Constitutional Development Buildings {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+.update {
+   
+    display: block;
+    margin-top: -30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    
+  }
+  .card.card-rotate.bg-primary .back {
+      background: linear-gradient(60deg, orange, orange); 
+    
+    }
+
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <!--
+    add new building
+  -->
+ 
+  <div class="modal fade" id="updateMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Updated successfully</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <P>Building information was successfully updated</P>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"  style="background-color: orange;color:white">Ok</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card card-plain">
+                <div class="card-header card-header-primary" style="background: linear-gradient(60deg, orange, rgb(255, 199, 94));">
+                  <h4 class="card-title mt-0" style="color:rgb(83, 83, 83)">Update Department Building</h4>
+                  <p class="card-category">Update {{building.name}} Building Information</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6 update">
+                          <div class="card">
+                            <div class="card-header " style="background: linear-gradient(60deg, orange, rgb(143, 124, 88));" >
+                                <h4 class="card-title">
+                                    Building ({{building.name}})
+                                </h4>
+                              </div>
+                            <div class="card-body">
+                    
+                              <h6 class="card-category">
+                                 
+                                       <small>Department of Justice and Constitutional Development Building </small>
+                                 
+                              </h6>
+                              <form id="updateform">
+                                <div class="form-group">
+                                  <input type="text" name="name" value="{{building.name}}" class="form-control" id="exampleInputEmail1" placeholder="Building Name">
+                                </div>
+                                <div class="form-group">
+                                  <input type="text" name="address" value="{{building.address}}" class="form-control"  placeholder="Building Address">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="zipCode" value="{{building.zipCode}}" class="form-control"  placeholder="Building Postal Code">
+                                  </div>
+                                <div class="form-group">
+                                    <input type="text" name="city" value="{{building.city}}" class="form-control"  placeholder="Building City">
+                                </div>
+                             
+                                    <input hidden type="text" name="id" value="{{building.id}}" class="form-control"  placeholder="Building City">
+                               
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary" style="background-color: orange;">save</button>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                  
+                </div>
+              </div>
+            </div>
+        </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+
+
+var form = document.getElementById('updateform')
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        alert('form Submited')
+        submitFormData();
+      
+    })
+
+    function getToken(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getToken('csrftoken')   
+    //add  building 
+
+    function submitFormData(){
+        var itemData = {
+            'name':null,
+            'address':null,
+            'zipCode':null,
+            'city':null,
+        }
+
+        itemData.name = form.name.value
+        itemData.address = form.address.value
+        itemData.zipCode = form.zipCode.value
+        itemData.city = form.city.value
+        var id =  form.id.value
+        
+        var URL = "/building/"+id+"/";
+
+        var dataObject = itemData;
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+        $.ajax({
+            url: URL,
+            type: 'PUT',    
+            data: JSON.stringify(dataObject),
+            contentType : 'application/json',
+            success: function(result) {
+              $('#updateMessage').modal('show')
+              $('#updateMessage').on('hidden.bs.modal', function (e) {
+                
+                window.location.href = "{% url 'inforbuilding' %}"
+                })
+
+              
+            }
+        });
+    }
+
+
+
+</script>
+
+
+{% endblock javascripts %}

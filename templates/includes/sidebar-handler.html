@@ -1,0 +1,56 @@
+<div class="sidebar" data-color="orange" data-background-color="white" data-image="/static/assets/img/sidebar-1.jpg">
+    <div class="logo">
+      <a target="_blank" rel="noopener noreferrer" 
+         href="" class="simple-text logo-normal">
+         Property Landlord
+      </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+      {% if request.user.is_authenticated %}
+
+        <li class="nav-item {% if 'reports' in segment %} active {% endif %}">
+          <a class="nav-link" href="{% url 'handlerReports' %}">
+            <i class="material-icons"></i>
+            <p>Property Reports</p>
+          </a>
+        </li>
+        <li class="nav-item {% if 'profile' in segment %} active {% endif %}">
+          <a class="nav-link" href="{% url 'handlerprofile' %}">
+            <i class="material-icons"></i>
+            <p>User Profile</p>
+          </a>
+        </li>
+       
+        
+        <li class="nav-item {% if 'notification' in segment %} active {% endif %}">
+          <a class="nav-link" href="{% url 'notificationhandler' %}">
+            <i class="material-icons"></i>
+            <p>Notifications</p>
+          </a>
+        </li>
+        
+
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'logout' %}" >
+            <i class="material-icons"></i>
+            <p>Logout</p>
+          </a>
+        </li>
+
+      {% else %}
+
+        <li class="nav-item active">
+          <a class="nav-link" 
+             target="_blank" rel="noopener noreferrer"  
+             href="">
+            <i class="material-icons"></i>
+            <p>Buildings Management</p>
+          </a>
+        </li>          
+
+      {% endif %}
+      </ul>
+    </div>
+
+  </div>

@@ -1,0 +1,87 @@
+    <div class="sidebar" data-color="orange" data-background-color="white" data-image="/static/assets/img/sidebar-1.jpg">
+      <div class="logo">
+        <a target="_blank" rel="noopener noreferrer" 
+           href="" class="simple-text logo-normal">
+           Administration
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+        {% if request.user.is_authenticated %}
+
+       <!--  <li class="nav-item {% if 'index' in segment %} active {% endif %}">
+            <a class="nav-link" href="/">
+              <i class="material-icons">dashboard</i>
+              <p>Dashboard</p>
+            </a>
+          </li> --> 
+          <li class="nav-item {% if 'ui-maps' in segment %} active {% endif %}">
+            <a class="nav-link" href="{% url 'inforbuilding' %}">
+              <i class="material-icons"></i>
+              <p>Properties</p>
+            </a>
+          </li>
+
+          <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+            <a class="nav-link" href="{% url 'employeesInformation' %}">
+              <i class="material-icons"></i>
+              <p>Users</p>
+            </a>
+          </li>
+          <li class="nav-item {% if 'ui-typography' in segment %} active {% endif %}">
+            <a class="nav-link" href="{% url 'report_handler' %}">
+              <i class="material-icons"></i>
+              <p>Property Landlords</p>
+            </a>
+          </li>
+          <li class="nav-item {% if 'ui-tables' in segment %} active {% endif %}">
+            <a class="nav-link" href="{% url 'report_selection' %}">
+              <i class="material-icons"></i>
+              <p>Reports</p>
+            </a>
+          </li>
+          <li class="nav-item {% if 'ui-icons' in segment %} active {% endif %}">
+            <a class="nav-link" href="{% url 'bookingBoardrooms' %}">
+              <i class="material-icons"></i>
+              <p>Board Rooms</p>
+            </a>
+          </li>
+
+          <li class="nav-item {% if 'ui-icons' in segment %} active {% endif %}">
+            <a class="nav-link" href="{% url 'parkingBooking' %}">
+              <i class="material-icons"></i>
+              <p>Parkings</p>
+            </a>
+          </li>
+          
+          <li class="nav-item {% if 'ui-notifications' in segment %} active {% endif %}">
+            <a class="nav-link" href="#">
+              <i class="material-icons"></i>
+              <p>Notifications</p>
+            </a>
+          </li>
+          
+
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'logout' %}" >
+              <i class="material-icons"></i>
+              <p>Logout</p>
+            </a>
+          </li>
+
+        {% else %}
+
+          <li class="nav-item active">
+            <a class="nav-link" 
+               target="_blank" rel="noopener noreferrer"  
+               href="https://appseed.us/admin-dashboards/django-dashboard-material-pro">
+              <i class="material-icons">unarchive</i>
+              <p>Building Management</p>
+            </a>
+          </li>          
+
+        {% endif %}
+        </ul>
+      </div>
+
+    </div>
